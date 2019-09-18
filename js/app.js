@@ -1,28 +1,37 @@
 /*
  * Create a list that holds all of your cards
  */
-
  const cards = ["fa fa-anchor", "fa fa-anchor", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bolt", "fa fa-bolt", "fa fa-bomb", "fa fa-bomb", "fa fa-cube", "fa fa-cube", "fa fa-diamond", "fa fa-diamond", "fa fa-leaf", "fa fa-leaf", "fa fa-paper-plane-o", "fa fa-paper-plane-o"];
 
+ const shuffledCards = shuffle(cards);
 /*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
+ * Create the list of cards dynamically and show it to the page
  */
 
+ // The container of the cards
 const deck = document.querySelector(".deck");
+openedCards = [];
 
-cards.forEach(function(card){
-    const li = document.createElement("li");
-    li.classList.add("card");
-    li.innerHTML = `<i class="${card}"</i>`;
-    deck.appendChild(li);
+// Creating the cards.
+shuffledCards.forEach(function(icon){
+    const card = document.createElement("li");
+    card.classList.add("card");
+    card.innerHTML = `<i class="${icon}"</i>`;
+    deck.appendChild(card);
+
+    card.addEventListener('click', function() {
+        if (!card.classList.contains("open", "show")) {
+            card.classList.add("open", "show");
+            openedCards.push(card);
+            
+        }
+    });
+
 });
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -32,7 +41,7 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
 
-    return array;
+    return cards;
 }
 
 
@@ -46,3 +55,4 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
