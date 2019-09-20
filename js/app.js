@@ -46,7 +46,7 @@ deck.addEventListener('click', event => {
         toggleCard(clickTarget);
         addToggleCard(clickTarget);
         if (openedCards.length === 2) {
-            console.log('2 cards!');
+            matchCards();
         }
     }
 });
@@ -58,4 +58,16 @@ function toggleCard(clickTarget) {
 
 function addToggleCard(clickTarget) {
     openedCards.push(clickTarget);
+    console.log(openedCards);
+}
+
+function matchCards() {
+    let firstCard = openedCards[0];
+    let secondCard = openedCards[1];
+
+    if (firstCard.firstElementChild.className === secondCard.firstElementChild.className) {
+        console.log('Match!')
+    } else {
+        console.log('Not a match!')
+    }
 }
