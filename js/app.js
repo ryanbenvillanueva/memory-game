@@ -1,33 +1,14 @@
 /*
  * Create a list that holds all of your cards
  */
- const cards = ["fa fa-anchor", "fa fa-anchor", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bolt", "fa fa-bolt", "fa fa-bomb", "fa fa-bomb", "fa fa-cube", "fa fa-cube", "fa fa-diamond", "fa fa-diamond", "fa fa-leaf", "fa fa-leaf", "fa fa-paper-plane-o", "fa fa-paper-plane-o"];
 
- const shuffledCards = shuffle(cards);
+
 /*
- * Create the list of cards dynamically and show it to the page
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
  */
-
- // The container of the cards
-const deck = document.querySelector(".deck");
-openedCards = [];
-
-// Creating the cards.
-shuffledCards.forEach(function(icon){
-    const card = document.createElement("li");
-    card.classList.add("card");
-    card.innerHTML = `<i class="${icon}"</i>`;
-    deck.appendChild(card);
-
-    card.addEventListener('click', function() {
-        if (!card.classList.contains("open", "show")) {
-            card.classList.add("open", "show");
-            openedCards.push(card);
-            
-        }
-    });
-
-});
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -41,7 +22,7 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
 
-    return cards;
+    return array;
 }
 
 
@@ -56,3 +37,12 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+const deck = document.querySelector('.deck');
+
+deck.addEventListener('click', event => {
+    const clickTarget = event.target;
+    if (clickTarget.classList.contains('card')) {
+        clickTarget.classList.toggle('open');
+        clickTarget.classList.toggle('show');
+    }
+});
