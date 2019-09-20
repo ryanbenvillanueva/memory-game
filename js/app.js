@@ -38,15 +38,24 @@ function shuffle(array) {
  */
 
 const deck = document.querySelector('.deck');
+let openedCards = [];
 
 deck.addEventListener('click', event => {
     const clickTarget = event.target;
-    if (clickTarget.classList.contains('card')) {
+    if (clickTarget.classList.contains('card') && openedCards.length < 2) {
         toggleCard(clickTarget);
+        addToggleCard(clickTarget);
+        if (openedCards.length === 2) {
+            console.log('2 cards!');
+        }
     }
 });
 
 function toggleCard(clickTarget) {
     clickTarget.classList.toggle('open');
     clickTarget.classList.toggle('show');
+}
+
+function addToggleCard(clickTarget) {
+    openedCards.push(clickTarget);
 }
