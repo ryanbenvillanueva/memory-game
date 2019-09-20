@@ -2,7 +2,13 @@
  * Create a list that holds all of your cards
  */
 const deck = document.querySelector('.deck');
+let moves = 0;
 
+function addMove(){
+    moves++;
+    const movesText = document.querySelector('.moves');
+    movesText.innerHTML = moves;
+}
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -60,6 +66,7 @@ deck.addEventListener('click', event => {
         addToggleCard(clickTarget);
         if (openedCards.length === 2) {
             matchCards(clickTarget);
+            addMove();
         }
     }
 });
