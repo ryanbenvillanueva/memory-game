@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
+const deck = document.querySelector('.deck');
 
 /*
  * Display the cards on the page
@@ -10,9 +10,19 @@
  *   - add each card's HTML to the page
  */
 
+ function ShuffleDeck() {
+    const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
+    const shuffledCards = shuffle(cardsToShuffle);
+    for (card of shuffledCards) {
+        deck.appendChild(card);
+    }
+ }
+ ShuffleDeck();
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -37,16 +47,19 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-const deck = document.querySelector('.deck');
+
 let openedCards = [];
 
 deck.addEventListener('click', event => {
     const clickTarget = event.target;
-    if (clickTarget.classList.contains('card') && openedCards.length < 2) {
+    if (clickTarget.classList.contains('card') &&
+        !clickTarget.classList.contains('match') &&
+        openedCards.length < 2 &&
+        !openedCards.includes(clickTarget)) {
         toggleCard(clickTarget);
         addToggleCard(clickTarget);
         if (openedCards.length === 2) {
-            matchCards();
+            matchCards(clickTarget);
         }
     }
 });
@@ -66,8 +79,14 @@ function matchCards() {
     let secondCard = openedCards[1];
 
     if (firstCard.firstElementChild.className === secondCard.firstElementChild.className) {
-        console.log('Match!')
+        firstCard.classList.toggle('.match');
+        secondCard.classList.toggle('.match');
+        openedCards = [];
     } else {
-        console.log('Not a match!')
+        setTimeout(() => {
+            openedCards = [];
+            toggleCard(firstCard);
+            toggleCard(secondCard);
+        }, 1000);
     }
 }
