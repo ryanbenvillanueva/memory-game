@@ -3,12 +3,9 @@
  */
 const deck = document.querySelector('.deck');
 let moves = 0;
+let openedCards = [];
 
-function addMove(){
-    moves++;
-    const movesText = document.querySelector('.moves');
-    movesText.innerHTML = moves;
-}
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -53,9 +50,6 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-
-let openedCards = [];
-
 deck.addEventListener('click', event => {
     const clickTarget = event.target;
     if (clickTarget.classList.contains('card') &&
@@ -95,5 +89,27 @@ function matchCards() {
             toggleCard(firstCard);
             toggleCard(secondCard);
         }, 1000);
+    }
+}
+
+function addMove() {
+    moves++;
+    const movesText = document.querySelector('.moves');
+    movesText.innerHTML = moves;
+}
+
+function checkScore() {
+    if (moves === 16 || moves === 24) {
+        hideStar();
+    }
+}
+
+function hideStar() {
+    const starList = document.querySelectorAll('.stars li');
+    for (star of starList) {
+        if (star.style.display !== 'none') {
+            star.style.display = 'none';
+            break;
+        }
     }
 }
