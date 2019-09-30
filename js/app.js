@@ -4,6 +4,9 @@
 const deck = document.querySelector('.deck');
 let moves = 0;
 let openedCards = [];
+let clockOff = true;
+let time = 0;
+let clockId;
 
 
 /*
@@ -13,14 +16,14 @@ let openedCards = [];
  *   - add each card's HTML to the page
  */
 
- function ShuffleDeck() {
+function ShuffleDeck() {
     const cardsToShuffle = Array.from(document.querySelectorAll('.deck li'));
     const shuffledCards = shuffle(cardsToShuffle);
     for (card of shuffledCards) {
         deck.appendChild(card);
     }
- }
- ShuffleDeck();
+}
+ShuffleDeck();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -56,6 +59,10 @@ deck.addEventListener('click', event => {
         !clickTarget.classList.contains('match') &&
         openedCards.length < 2 &&
         !openedCards.includes(clickTarget)) {
+        if (clockOff) {
+            startClock();
+            clockOff = false;
+        }
         toggleCard(clickTarget);
         addToggleCard(clickTarget);
         if (openedCards.length === 2) {
@@ -65,6 +72,28 @@ deck.addEventListener('click', event => {
     }
 });
 
+function startClock() {
+    clockId = setInterval(() => {
+        time++;
+        displayTime();
+    }, 1000);
+}
+
+function displayTime() {
+    const clock = document.querySelector('.clock');
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+
+    if (seconds < 10) {
+        clock.innerHTML = `${minutes}:0${seconds}`;
+    } else {
+        clock.innerHTML = `${minutes}:${seconds}`;
+    }
+}
+
+function stopClock() {
+    clearInterval(clockId);
+}
 function toggleCard(clickTarget) {
     clickTarget.classList.toggle('open');
     clickTarget.classList.toggle('show');
